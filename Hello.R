@@ -2,15 +2,11 @@
 install.packages("gitcreds")
 library(gitcreds)
 gitcreds_set()
+#Erster Überblick
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # Vivian Working Directory
 #setwd("~/Studium/Master/2. Semester/Small Area/Daten")
+
+#Paulos Working Directory
+#setwd("/Users/paulo/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RW_2019-20_DHS_06172024_1312_215365")
 ruanda <- read.delim("RWHR81FL.DAT", sep = " ")
-=======
-#Erster Überblick
->>>>>>> e6d7ae988681e484df0c019e0f99032b172a30bb
-=======
-#Erster Überblick test neu
->>>>>>> 9adec0834af0949f9b6b6e7935c75f23621298ba
