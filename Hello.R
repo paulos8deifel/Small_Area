@@ -7,3 +7,5 @@
 install.packages("gitcreds")
 library(gitcreds)
 gitcreds_set()
+
+ruanda <- read.delim("RWHR81FL.DAT", sep = " ")
