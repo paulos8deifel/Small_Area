@@ -3,4 +3,7 @@
 # Und nochmal
 # Ein viertes Mal
 # Ein fünftes Mal
-#ein sechstes Malj
+#ein sechstes Malu
+install.packages("gitcreds")
+library(gitcreds)
+gitcreds_set()
