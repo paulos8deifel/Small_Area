@@ -5,6 +5,8 @@ gitcreds_set()
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+# Vivian Working Directory
+#setwd("~/Studium/Master/2. Semester/Small Area/Daten")
 ruanda <- read.delim("RWHR81FL.DAT", sep = " ")
 =======
 #Erster Überblick
