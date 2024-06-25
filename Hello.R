@@ -5,7 +5,16 @@ library(gitcreds)
 library(haven)
 library(rdhs)
 gitcreds_set()
-
+install.packages("haven") # used to open dataset with read_dta
+install.packages("here") # used for path of your project. Save your datafile in this folder path.
+install.packages("dplyr") # used for creating new variables
+install.packages("labelled") # used for haven labelled variable creation
+install.packages("pollster") # used to produce weighted estimates with topline command
+library(haven)
+library(here)
+library(dplyr)
+library(labelled) 
+library(pollster)
 #Erster Überblick
 
 # Vivian Working Directory
@@ -28,3 +37,24 @@ microbenchmark::microbenchmark(dhs_surveys(surveyYear = 2019-20),times = 1)
 downloads <- get_datasets(dataset$RWPR81FL)
 client_dhs
 setwd
+
+# Daten 2017
+rwanda2017 <- read.csv("RWHR7AFL.DAT", header = FALSE, sep = " ")
+View(rwanda2017)
+# Daten IR
+rwandair <- read.csv("RWIR81FL.DAT", header = FALSE, sep = " ")
+View(rwandair)
+names(rwandair)
+rwandair2 <-  read_dta(here("RWIR81FL.DTA"))
+setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWIR81DT")
+rwandair2 <- read_dta(here::here("RWIR81FL.DTA"))
+#DATENSATZ
+RWANDA <- read_dta("RWIR81FL.DTA")
+
+View(RWANDA)
+names(RWANDA)
+
+setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWHR81DT")
+RWANDA2 <- read_dta("RWHR81FL.DTA")
+View(RWANDA2)
+names(RWANDA2)
