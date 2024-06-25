@@ -1,0 +1,47 @@
+---
+title: "Hello_in_Schön"
+author: "Vivian Stehmans, Paulos Deifel"
+date: "2024-06-25"
+output: html_document
+---
+Ruanda
+```{r}
+library(gitcreds)
+library(haven)
+library(rdhs)
+library(haven)
+library(here)
+library(dplyr)
+library(labelled) 
+library(pollster)
+```
+Vivian Working Directory
+```{r}
+setwd("~/Studium/Master/2. Semester/Small Area/Daten/RWPR81DT")
+```
+Paulos Working Directory
+```{r}
+setwd("/Users/paulo/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RW_2019-20_DHS_06172024_1312_215365")
+```
+Erklärung zum Einlesen von DHS in R
+- man braucht die ZIP-Datei mit der Endung DT
+- die Dateien aus der ZIP-Datei extrahieren
+- working directory anpassen
+```{r}
+# Paulos
+setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWIR81DT")
+
+setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWHR81DT")
+
+setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWPR81DT")
+# Vivian
+setwd("~/Studium/Master/2. Semester/Small Area/Daten/RWIR81DT")
+setwd("~/Studium/Master/2. Semester/Small Area/Daten/RWHR81DT")
+setwd("~/Studium/Master/2. Semester/Small Area/Daten/RWPR81DT")
+```
+- in der ZIP-Datei ist eine DTA Datei die man einließt
+```{r}
+rwanda_ir <- read_dta("RWIR81FL.DTA")
+rwanda_hr <- read_dta("RWHR81FL.DTA")
+rwanda_pr <- read_dta("RWPR81FL.DTA")
+```
