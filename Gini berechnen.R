@@ -10,7 +10,7 @@
 # **If you want to add other country specific background characteristics, add this as a new calc_gini function as a relevant Class in lines 139 and 141
 # *****************************************************************************************************/
 PRdata <- RWPR81FL 
-PRdata_gini <- select(PRdata,hv005, hv012, hv024, hv025, hv101, hv270, hv271)
+PRdata_gini <- select(PRdata,hv005, hv012, hv024, hv025, hv101, hv270, hv271, shdistrict)
 
 calc_gini <- function(Data.Name, Class = NULL){
   
@@ -126,9 +126,15 @@ calc_gini <- function(Data.Name, Class = NULL){
   }
   
 }
-
-ph_gini_results <- as.data.frame(rbind(calc_gini(PRdata_gini),
+# Gini für Region
+ph_gini_results_r <- as.data.frame(rbind(calc_gini(PRdata_gini),
                                        calc_gini(PRdata_gini,Class="hv025"),
                                        calc_gini(PRdata_gini,Class="hv024")))
 
 write.xlsx(ph_gini_results, "Tables_PH.xlsx", sheetName = "ph_gini_results",append=TRUE)
+
+
+# Gini für district
+ph_gini_results_d <- as.data.frame(rbind(calc_gini(PRdata_gini),
+                                       calc_gini(PRdata_gini,Class="hv025"),
+                                       calc_gini(PRdata_gini,Class="shdistrict")))
