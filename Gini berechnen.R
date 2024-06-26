@@ -9,7 +9,7 @@
 # Date last modified: January 31, 2022 by Mahmoud Elkasabi 
 # **If you want to add other country specific background characteristics, add this as a new calc_gini function as a relevant Class in lines 139 and 141
 # *****************************************************************************************************/
-
+PRdata <- RWPR81FL 
 PRdata_gini <- select(PRdata,hv005, hv012, hv024, hv025, hv101, hv270, hv271)
 
 calc_gini <- function(Data.Name, Class = NULL){
