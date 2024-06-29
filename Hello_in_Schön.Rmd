@@ -14,6 +14,7 @@ library(here)
 library(dplyr)
 library(labelled) 
 library(pollster)
+library(emdi)
 ```
 Vivian Working Directory
 ```{r}

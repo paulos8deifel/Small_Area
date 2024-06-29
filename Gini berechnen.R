@@ -9,7 +9,8 @@
 # Date last modified: January 31, 2022 by Mahmoud Elkasabi 
 # **If you want to add other country specific background characteristics, add this as a new calc_gini function as a relevant Class in lines 139 and 141
 # *****************************************************************************************************/
-PRdata <- RWPR81FL 
+PRdata <- RWPR81FL
+PRdata$weight <- PRdata$hv005/1000000 # Umrechnung von sample auf design weights
 PRdata_gini <- select(PRdata,hv005, hv012, hv024, hv025, hv101, hv270, hv271, shdistrict)
 
 calc_gini <- function(Data.Name, Class = NULL){
@@ -130,6 +131,7 @@ calc_gini <- function(Data.Name, Class = NULL){
 ph_gini_results_r <- as.data.frame(rbind(calc_gini(PRdata_gini),
                                        calc_gini(PRdata_gini,Class="hv025"),
                                        calc_gini(PRdata_gini,Class="hv024")))
+ph_gini_results_r <- as.data.frame(calc_gini(PRdata_gini,Class="hv024"))
 
 write.xlsx(ph_gini_results, "Tables_PH.xlsx", sheetName = "ph_gini_results",append=TRUE)
 
@@ -138,3 +140,107 @@ write.xlsx(ph_gini_results, "Tables_PH.xlsx", sheetName = "ph_gini_results",appe
 ph_gini_results_d <- as.data.frame(rbind(calc_gini(PRdata_gini),
                                        calc_gini(PRdata_gini,Class="hv025"),
                                        calc_gini(PRdata_gini,Class="shdistrict")))
+bootVar(data = PRdata, indicator = "gini", weights = "weights")
+# Bis hier geht der Teil von Tom Pullum
+
+
+# Bootstrap bisher auf nationaler Ebene
+n_bootstrap <- 50 # Final sollten wir hier eine größere Zahl verwenden
+
+
+# Funktion zum Berechnen des Gini-Koeffizienten mit Bootstrap (ohne Arealevel)
+bootstrap_gini <- function(data, n_bootstrap) {
+  gini_values <- numeric(n_bootstrap)
+  
+  for (i in 1:n_bootstrap) {
+    # Ziehe eine Bootstrap-Stichprobe mit Zurücklegen
+    bootstrap_sample <- data[sample(nrow(data), replace = TRUE), ]
+    
+    # Berechne den Gini-Koeffizienten für die Bootstrap-Stichprobe
+    gini_result <- calc_gini(bootstrap_sample)
+    gini_values[i] <- as.numeric(gini_result$Gini)
+  }
+  
+  return(gini_values)
+}
+
+# Führe den Bootstrap durch
+gini_bootstrap_values <- bootstrap_gini(PRdata, n_bootstrap)
+
+# Berechne die Varianz der Gini-Koeffizienten
+gini_variance <- var(gini_bootstrap_values)
+
+
+#------------------------------------
+
+library(dplyr)
+
+bootstrap_gini <- function(data, area_column, n_bootstrap) {
+  # Initialisiere eine Liste zur Speicherung der Gini-Werte für jede Area
+  gini_results <- list()
+  # Extrahiere die eindeutigen Areas
+  areas <- unique(data[[area_column]])
+  
+  # Schleife über jede Area
+  for (area in areas) {
+    # Filtere die Daten für die aktuelle Area
+    area_data <- data %>% filter(data[[area_column]] == area)
+    gini_values <- numeric(n_bootstrap)
+    
+    # Schleife für Bootstrap-Stichproben
+    for (i in 1:n_bootstrap) {
+      # Ziehe eine Bootstrap-Stichprobe mit Zurücklegen
+      bootstrap_sample <- area_data[sample(nrow(area_data), replace = TRUE), ]
+      
+      # Berechne den Gini-Koeffizienten für die Bootstrap-Stichprobe
+      gini_result <- calc_gini(bootstrap_sample)
+      gini_values[i] <- as.numeric(gini_result$Gini)
+    }
+    
+    # Speichere die Gini-Werte für die aktuelle Area
+    gini_results[[as.character(area)]] <- gini_values
+  }
+  
+  return(gini_results)
+}
+
+#------Bootstrap für Gini mit a
+
+
+bootstrap_gini <- function(data, area_v, n_bootstrap) {
+  gini_results <- list()
+  # Anzahl an Areas (sortiert, damit Labels nachher wieder zugeordnet werden können)
+  area_n <- sort(unique(data[[area_v]]))
+  # Schleife über jede Area
+  for (area in area_n) {
+    # Nur Daten für die Area
+    area_data <- data %>% filter(data[[area_v]] == area)
+    gini_values <- n_bootstrap
+    
+    # Schleife für Bootstrap Sample
+    for (i in 1:n_bootstrap) {
+      # Ziehe eine Bootstrap-Stichprobe mit Design Gewichten
+      bootstrap_sample <- area_data[sample(nrow(area_data), replace = TRUE, prob = area_data[["weight"]]), ]
+      
+      # Berechne den Gini-Koeffizienten für die Bootstrap-Stichprobe
+      gini_result <- calc_gini(bootstrap_sample)
+      gini_values[i] <- as.numeric(gini_result$Gini)
+    }
+    
+    # Speichere die Gini-Werte für die aktuelle Area
+    gini_results[[as.character(area)]] <- gini_values
+  }
+  # Labels werden wieder zugeordnet
+  label<- stack(attr(data[[area_v]], 'labels'))
+  names(gini_results) <- label$ind
+  return(gini_results)
+  }
+
+# Führe den Bootstrap durch
+gini_bootstrap_values <- bootstrap_gini(PRdata,"hv024", n_bootstrap)
+# Berechne die Varianz der Gini-Koeffizienten
+var_list <- sapply(gini_bootstrap_values, var)
+var_df <- data.frame(var_list)
+var_df
+
+
