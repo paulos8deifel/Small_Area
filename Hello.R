@@ -68,4 +68,3 @@ usethis::create_github_token()
 install.packages("gitcreds")
 gitcreds::gitcreds_set()
 usethis::use_github()
-

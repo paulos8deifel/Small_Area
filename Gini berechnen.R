@@ -243,6 +243,3 @@ var_list <- sapply(gini_bootstrap_values, var)
 var_df <- data.frame(var_list)
 var_df
 
-
-
-
