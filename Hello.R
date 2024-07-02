@@ -45,11 +45,11 @@ rwanda2017 <- read.csv("RWHR7AFL.DAT", header = FALSE, sep = " ")
 View(rwanda2017)
 # Daten IR
 rwandair <- read.csv("RWIR81FL.DAT", header = FALSE, sep = " ")
-View(rwandair)
-names(rwandair)
-rwandair2 <-  read_dta(here("RWIR81FL.DTA"))
+View(RWANDAIR)
+names(RWANDAIR)
+RWANDAIR <-  read_dta(here("RWIR81FL.DTA"))
 setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWIR81DT")
-rwandair2 <- read_dta(here::here("RWIR81FL.DTA"))
+RWANDAIR <- read_dta(here::here("RWIR81FL.DTA"))
 #DATENSATZ
 RWANDA <- read_dta("RWIR81FL.DTA")
 
@@ -57,7 +57,9 @@ View(RWANDA)
 names(RWANDA)
 
 setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Small Area Estimation/RWHR81DT")
-RWANDA2 <- read_dta("RWHR81FL.DTA")
+RWANDAHR<- read_dta("RWHR81FL.DTA")
+RWANDAPR <- read_dta("RWPR81FL.DTA")
+RWANDAIR <- read_dta("RWIR81FL.DTA")
 View(RWANDA2)
 names(RWANDA2)
 
