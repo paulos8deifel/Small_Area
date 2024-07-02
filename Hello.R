@@ -1,6 +1,7 @@
 # Einstellung
 #install.packages("gitcreds")
 #install.packages("foreign")
+# Das ist die aktuelle Version
 library(gitcreds)
 library(haven)
 library(rdhs)
