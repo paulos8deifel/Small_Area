@@ -13,8 +13,10 @@ install.packages("pollster") # used to produce weighted estimates with topline c
 library(haven)
 library(here)
 library(dplyr)
-library(labelled) 
+library(labelled)
 library(pollster)
+install.packages("usethis")
+library(usethis)
 #Erster Überblick
 
 # Vivian Working Directory
@@ -58,3 +60,9 @@ setwd("~/Documents/Dokumente - MacBook Air (10)/Dokumente/Bamberg/Semester 2/Sma
 RWANDA2 <- read_dta("RWHR81FL.DTA")
 View(RWANDA2)
 names(RWANDA2)
+
+usethis::create_github_token()
+install.packages("gitcreds")
+gitcreds::gitcreds_set()
+usethis::use_github()
+
